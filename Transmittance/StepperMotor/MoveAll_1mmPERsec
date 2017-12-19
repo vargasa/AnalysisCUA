@@ -1,0 +1,9 @@
+echo "C" >> USB0
+sleep 1
+echo "setM1M3" >> USB0
+sleep 1
+echo "S1M315" >> USB0
+sleep 1
+echo "I1M-78750" >> USB0
+sleep 5
+echo "R" >> USB0

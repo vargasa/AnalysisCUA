@@ -1,0 +1,5 @@
+echo "C" >> USB0
+sleep 1
+echo "I1M0" >> USB0
+sleep 1
+echo "R" >> USB0

@@ -1,0 +1,8 @@
+sudo chmod 666 USB0
+echo "E" >> USB0
+sleep 1
+echo "C" >> USB0
+sleep 1
+echo "setM1M3" >> USB0
+sleep 1
+echo "S1M262" >> USB0
