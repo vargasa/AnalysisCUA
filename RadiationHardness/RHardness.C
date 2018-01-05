@@ -8,12 +8,14 @@
 
   $ root -l 'RHardness.C("before","after","CrystalID")'
 
+  TODO: Need to define const d;
+
  */
 
 Int_t RHardness(TString before, TString after, TString crystalID = "0000"){
 
-  TString fbefore = "Sample"+before+".Sample.Raw.csv";
-  TString fafter = "Sample"+after+".Sample.Raw.csv";
+  TString fbefore = before+".Sample.Raw.csv";
+  TString fafter = after+".Sample.Raw.csv";
 
   TTree *tbefore = new TTree("tbefore","tbefore");
   TTree *tafter = new TTree("tafter","tafter");
@@ -57,20 +59,24 @@ Int_t RHardness(TString before, TString after, TString crystalID = "0000"){
 
   c0->cd(2);
 
-  const Double_t length = 200.0;
+  const Double_t length = 20.0;
   TGraph *gdk = new TGraph();
 
   for (Int_t i = 0; i < n; i++){
 
-    Double_t dk = TMath::Log(ttbefore[i]/ttafter[i])/length;
-    gdk->SetPoint(i,lambda[i],dk);
+    if (ttafter[i] > 0 && ttbefore[i] > 0 ) {
+      Double_t dk = TMath::Log(ttbefore[i]/ttafter[i])/length;
+      gdk->SetPoint(gdk->GetN(),lambda[i],dk);
+    } else {
+      printf("dk is NaN Log(%.2f / %.2f) Lambda:%.2f\n", ttbefore[i],ttafter[i],lambda[i]);
+    }
 
   }
 
-  gdk->SetTitle("Induced Absorption"+crystalID+";#lambda;dk");
+  gdk->SetTitle("Induced Absorption "+crystalID+";#lambda;dk");
   gdk->SetLineColor(kGreen);
   gdk->SetLineWidth(2);
-  gdk->Draw("AC*");
+  gdk->Draw("AL*");
   gPad->SetGrid();
   gdk->GetXaxis()->SetRangeUser(200,700);
   
