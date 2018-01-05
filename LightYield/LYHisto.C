@@ -9,6 +9,9 @@ Int_t LYHisto(){
   TTree *tr1 = new TTree("tr1","tr1");
   Int_t ndata = tr1->ReadFile(filename,"id:ly");
 
+  TF1 *fit = new TF1("fit","gaus",0.,40.);
+  fit->SetLineColor(3);
+
   tr1->Draw("id:ly","","goff");
   Double_t *ly = tr1->GetV2();
 
@@ -20,8 +23,10 @@ Int_t LYHisto(){
     hist->Fill(ly[i]);
   }
 
+  gStyle->SetOptFit();
   gPad->SetGrid();
-  hist->Draw("HIST");
+  hist->Fit("fit","M+");
+  hist->Draw();
   hist->SetFillColor(kBlue);
   hist->SetTitle("LY;LY;#Crystals");
   
